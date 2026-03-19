@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - B.A.L.I.K.</title>
+
+    <link rel="icon" type="image/png" href="../images/balik-icon.png" alt="B.A.L.I.K Logo">
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="bg-off-white">
+
+    <div class="hidden bg-white shadow-md py-2 text-gray-800"></div>
+
+    <!--NAV SECTION-->
+    <nav id="navbar"
+        class="fixed top-0 w-full z-50 transition-all duration-300 py-4 px-8 text-white border-b border-white/15">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+
+            <div class="flex items-center">
+                <button id="menu-btn" class="lg:hidden p-2 mr-4 focus:outline-none cursor-pointer z-70 relative">
+                    <svg id="menu-icon-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                        fill="currentColor" class="bi bi-list transition-colors duration-300" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                    </svg>
+                </button>
+
+                <div class="hidden lg:flex relative w-48 h-10 items-center">
+                    <img id="nav-logo" src="../images/balik-logo-white.png" alt="Logo"
+                        class="absolute left-0 h-20 w-auto object-contain transition-all duration-300">
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4 lg:space-x-8">
+
+                <div id="nav-links"
+                    class="hidden lg:flex space-x-8 font-medium items-center transition-colors duration-300">
+
+                    <a href="index.html" class="nav-link hover:text-french-blue py-2">Home</a>
+
+                    <div class="relative group">
+                        <button
+                            class="flex items-center gap-2 transition-all duration-300 hover:text-french-blue py-2 cursor-pointer outline-none group">
+                            Report
+                            <div class="p-1 rounded-md transition-all group-hover:bg-french-blue/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                    class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                            </div>
+                        </button>
+                        <div
+                            class="absolute left-0 top-full hidden group-hover:block w-48 bg-white text-gray-800 shadow-xl rounded-md py-2 border border-gray-100">
+                            <a href="report-lost-page.html"
+                                class="block px-4 py-2 hover:bg-blue-50 hover:text-french-blue">Lost an Item</a>
+                            <a href="report-found-page.html"
+                                class="block px-4 py-2 hover:bg-blue-50 hover:text-french-blue">Found an Item</a>
+                        </div>
+                    </div>
+
+                    <a href="search.html" class="nav-link hover:text-french-blue py-2">Search</a>
+
+                    <div class="relative group">
+                        <button
+                            class="flex items-center gap-2 transition-all duration-300 hover:text-french-blue py-2 cursor-pointer outline-none group">
+                            Support
+                            <div class="p-1 rounded-md transition-all group-hover:bg-french-blue/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                    class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                            </div>
+                        </button>
+                        <div
+                            class="absolute left-0 top-full hidden group-hover:block w-48 bg-white text-gray-800 shadow-xl rounded-md py-2 border border-gray-100">
+                            <a href="faqs-help.html"
+                                class="block px-4 py-2 hover:bg-blue-50 hover:text-french-blue">Help/FAQs</a>
+                            <a href="about-us.html"
+                                class="block px-4 py-2 hover:bg-blue-50 hover:text-french-blue">About Us</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 lg:space-x-4 lg:border-l lg:border-white/50 lg:pl-6"
+                    id="icon-wrapper">
+
+                    <div class="relative group py-2">
+    <button class="flex items-center cursor-pointer outline-none group/bell">
+        <div class="relative p-1.5 rounded-full border-2 border-transparent group-hover/bell:border-french-blue transition-all duration-300">
+            
+            <img id="notif-bell" src="../icons/notif-bell.png"
+                class="w-6 h-6 transition-all duration-300 brightness-0 invert" alt="Notifications">
+            
+            <span id="notif-dot" 
+                style="display: none;" 
+                class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white shadow-sm">
+            </span>
+
+        </div>
+    </button>
+
+    <div class="absolute right-0 top-full hidden group-hover:block w-80 -mt-1 pt-4 z-50 transition-all">
+        <div class="bg-white text-gray-800 shadow-2xl rounded-lg overflow-hidden border border-gray-100">
+            <div class="flex border-b border-gray-100 p-1" id="notif-tabs">
+                <button onclick="switchTab('unread')" id="unread-tab"
+                    class="flex-1 py-2 text-sm font-bold text-french-blue border-2 border-transparent hover:border-french-blue rounded-md transition-all duration-300 cursor-pointer">Unread</button>
+                <button onclick="switchTab('read')" id="read-tab"
+                    class="flex-1 py-2 text-sm font-medium text-gray-500 border-2 border-transparent hover:border-french-blue rounded-md transition-all duration-300 cursor-pointer">Read</button>
+            </div>
+            <div id="notif-content"
+                class="max-h-80 overflow-y-auto p-12 text-center text-gray-400 text-xs italic">No
+                new notifications</div>
+        </div>
+    </div>
+</div>
+
+                    <div class="relative group">
+                        <button class="flex items-center py-1 cursor-pointer outline-none">
+                            <div
+                                class="w-8 h-8 lg:w-12 lg:h-12 rounded-full overflow-hidden border-2 border-transparent hover:border-french-blue transition-all">
+                                <img id="user-icon" src="../icons/user-profile-white.png"
+                                    class="w-full h-full object-cover transition-all duration-300" alt="User">
+                            </div>
+                        </button>
+                        <div class="absolute right-0 top-full hidden group-hover:block pt-2">
+                            <div class="w-48 bg-white text-gray-800 shadow-xl rounded-md py-2 border border-gray-100">
+                                <a href="account.html" class="block px-4 py-2 hover:bg-blue-50">Profile</a>
+                                <hr class="my-1 border-gray-100">
+                                <a href="#" data-logout class="block px-4 py-2 text-red-600 hover:bg-red-50">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="menu-overlay"
+        class="lg:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-110 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="menu-drawer"
+            class="fixed top-0 left-0 h-full w-70 bg-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl">
+            <div class="flex flex-col items-center justify-center mt-6 mb-10">
+                <img src="../images/balik-logo-black.png" alt="Logo" class="h-25 w-auto object-contain">
+            </div>
+            <button id="close-btn"
+                class="absolute top-4 right-4 text-gray-400 hover:text-black transition-colors cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <ul class="flex flex-col gap-4 text-dark-gray font-semibold">
+                <li><a href="index.html" class="block py-2 border-b border-gray-50 hover:text-french-blue">Home</a></li>
+                <li>
+                    <span class="text-[11px] text-light-gray uppercase tracking-widest block mb-1">Report</span>
+                    <ul class="pl-3 flex flex-col gap-2 border-l-2 border-gray-100">
+                        <li><a href="report-lost-page.html" class="text-sm hover:text-french-blue">Report Lost</a></li>
+                        <li><a href="report-found-page.html" class="text-sm hover:text-french-blue">Report Found</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="search.html" class="block py-2 border-b border-gray-50 hover:text-french-blue">Search</a>
+                <li>
+                    <span class="text-[11px] text-light-gray uppercase tracking-widest block mb-2">Support</span>
+                    <ul class="pl-3 flex flex-col gap-2 border-l-2 border-gray-100">
+                        <li><a href="faqs-help.html" class="text-sm hover:text-french-blue">Help/FAQs</a></li>
+                        <li><a href="about-us.html" class="text-sm hover:text-french-blue">About Us</a></li>
+                    </ul>
+                </li>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--HERO SECTION-->
+    <header class="relative h-screen flex items-center justify-center text-center bg-cover bg-center overflow-hidden"
+        style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.6)), url('../images/sarm-img-7.png');">
+
+        <div class="text-white px-4">
+            <h1 class="text-5xl md:text-7xl font-black mb-4 leading-tight">
+                <span class="text-french-blue">B</span>ulSU
+                <span class="text-french-blue">A</span>utomated
+                <span class="text-french-blue">L</span>ost <br>
+                <span class="text-french-blue">I</span>tem
+                <span class="text-french-blue">K</span>eeper
+            </h1>
+
+            <p class="italic text-lg md:text-xl mb-8 opacity-90">Trace it. Find it. B.A.L.I.K. it.</p>
+
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="report-found-page.html"
+                    class="bg-french-blue hover:bg-dark-blue text-white px-10 py-3 rounded-full font-medium transition-all uppercase cursor-pointer inline-block text-center">
+                    Found an Item
+                </a>
+
+                <a href="report-lost-page.html"
+                    class="border-2 border-white hover:bg-hover-white/25 hover:text-white text-white px-10 py-3 rounded-full font-bold transition-all uppercase cursor-pointer inline-block text-center">
+                    Lost an Item
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!--ABOUT SECTION-->
+    <section class="max-w-6xl mx-auto my-21.75 px-6">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-12 lg:gap-20">
+            <div class="flex-none">
+                <img src="../images/sarm-img-12.png" alt="B.A.L.I.K. platform"
+                    class="w-118.75 h-76.25 rounded-[15px] object-cover shadow-lg block max-w-none">
+            </div>
+
+            <div class="max-w-xl">
+                <h2 class="text-4xl font-black mb-8 leading-tight text-black">What is <span
+                        class="text-french-blue">B.A.L.I.K?</span></h2>
+
+                <div class="space-y-6 text-light-gray text-lg md:text-xl text-justify">
+                    <p>Serving the Starmiento community, B.A.L.I.K. provides a centralized digital
+                        repository for reporting and retrieving misplaced property.</p>
+                    <p>Our platform bridges the gap between finders and owners with efficiency, transparency, and campus
+                        pride.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--HOW IT WORKS SECTION-->
+    <section class="max-w-7xl mx-auto my-21.75 px-6">
+        <h2 class="text-center text-4xl font-black mb-8 uppercase tracking-tight">HOW IT <span
+                class="text-french-blue">WORKS?</span></h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div
+                class="bg-white p-8 rounded-[30px] shadow-sm flex flex-col items-start relative min-h-75 hover:bg-french-blue/15 hover:-translate-y-2 hover:shadow-xl transition-all duration-500 cursor-pointer">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="../icons/lost-items.png" alt="Report" class="w-20 h-17 object-contain">
+                    <div>
+                        <h3 class="text-french-blue font-black text-3xl uppercase leading-none">REPORT</h3>
+                        <span class="text-black font-black text-lg">Lost Item</span>
+                    </div>
+                </div>
+                <p class="text-light-gray text-justify text-lg leading-relaxed">Quickly document your missing item to
+                    alert the entire campus community.</p>
+                <span class="absolute bottom-8 right-8 text-3xl font-black text-green">1</span>
+            </div>
+
+            <div
+                class="bg-white p-8 rounded-[30px] shadow-sm flex flex-col items-start relative min-h-75 hover:bg-french-blue/15 hover:-translate-y-2 hover:shadow-xl transition-all duration-500 cursor-pointer">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="../icons/browse-item.png" alt="Browse" class="w-20 h-17 object-contain">
+                    <div>
+                        <h3 class="text-french-blue font-black text-3xl uppercase leading-none">SEARCH</h3>
+                        <span class="text-black font-black text-lg">Item</span>
+                    </div>
+                </div>
+                <p class="text-light-gray text-justify text-lg leading-relaxed">Scan the campus collection to find your
+                    missing essentials by building or room.</p>
+                <span class="absolute bottom-8 right-8 text-3xl font-black text-green">2</span>
+            </div>
+
+            <div
+                class="bg-white p-8 rounded-[30px] shadow-sm flex flex-col items-start relative min-h-75 hover:bg-french-blue/15 hover:-translate-y-2 hover:shadow-xl transition-all duration-500 cursor-pointer">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="../icons/submit-claim.png" alt="Submit" class="w-20 h-17 object-contain">
+                    <div>
+                        <h3 class="text-french-blue font-black text-3xl uppercase leading-none">SUBMIT</h3>
+                        <span class="text-black font-black text-lg">Claim</span>
+                    </div>
+                </div>
+                <p class="text-light-gray text-justify text-lg leading-relaxed">Provide proof of ownership to initiate
+                    the secure return of your property.</p>
+                <span class="absolute bottom-8 right-8 text-3xl font-black text-green">3</span>
+            </div>
+
+            <div
+                class="bg-white p-8 rounded-[30px] shadow-sm flex flex-col items-start relative min-h-75 hover:bg-french-blue/15 hover:-translate-y-2 hover:shadow-xl transition-all duration-500 cursor-pointer">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="../icons/admin-verification.png" alt="Admin" class="w-20 h-17 object-contain">
+                    <div>
+                        <h3 class="text-french-blue font-black text-3xl uppercase leading-none">ADMIN</h3>
+                        <span class="text-black font-black text-lg">Verification</span>
+                    </div>
+                </div>
+                <p class="text-light-gray text-justify text-lg leading-relaxed">Ensure a safe exchange through official
+                    campus validation and security.</p>
+                <span class="absolute bottom-8 right-8 text-3xl font-black text-green">4</span>
+            </div>
+        </div>
+    </section>
+
+    <!--SDG ALIGNMENT SECTION-->
+    <section class="bg-french-blue py-10 px-6 text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col items-center">
+
+            <div class="flex flex-col-reverse md:flex-row justify-between items-center md:items-end mb-12 gap-8 w-full">
+
+                <p class="max-w-md text-md text-center md:text-left text-white text-lg leading-relaxed">
+                    Advancing UN goals through campus integrity. B.A.L.I.K. fosters a Starmiento culture rooted in
+                    accountability and trust.
+                </p>
+
+                <h2
+                    class="text-center md:text-right text-black text-3xl md:text-3xl font-black leading-tight tracking-tight">
+                    Supporting the<br>
+                    <span class="text-white">SUSTAINABLE DEVELOPMENT</span><br>
+                    <span class="text-white">GOALS</span>
+                </h2>
+
+            </div>
+
+            <div
+                class="bg-white rounded-[30px] p-6 md:p-12 flex flex-col md:flex-row items-center gap-10 w-full shadow-2xl">
+
+                <div class="flex-none md:border-r-2 border-gray-200 md:pr-10">
+                    <div class="w-40 h-40 md:w-48 md:h-48 group perspective-[1000px]">
+                        <div
+                            class="relative w-full h-full transition-transform duration-500 transform-3d group-hover:transform-[rotateY(180deg)]">
+                            <div class="absolute inset-0 backface-hidden">
+                                <img src="../images/sdg-16-logo-no-bg.png" alt="SDG 16 Icon"
+                                    class="w-full h-full object-contain">
+                            </div>
+                            <div class="absolute inset-0 backface-hidden transform-[rotateY(180deg)]">
+                                <img src="../images/sdg-16-img.png" alt="SDG 16 Alt"
+                                    class="w-full h-full object-contain">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grow text-black">
+                    <div
+                        class="flex flex-col sm:flex-row items-center sm:items-baseline gap-2 sm:gap-3 mb-4 text-center sm:text-left">
+                        <h3 class="text-4xl font-black text-black">SDG <span class="text-french-blue">16</span></h3>
+                        <p class="text-gray-500 font-bold text-base md:text-lg">Peace, Justice, and Strong Institution
+                        </p>
+                    </div>
+
+                    <p class="text-gray-600 text-center md:text-justify text-base md:text-lg leading-relaxed mb-8">
+                        By establishing a transparent and automated system for lost property, we promote a culture of
+                        honesty and strengthen campus integrity. B.A.L.I.K. ensures that justice is served for every
+                        owner
+                        through reliable institutional recovery.
+                    </p>
+
+                    <div class="flex justify-center md:justify-end">
+                        <a href="https://sdgs.un.org/goals/goal16" target="_blank" rel="noopener noreferrer"
+                            class="bg-french-blue text-white px-10 py-3 rounded-full font-bold hover:bg-dark-blue hover:scale-105 transition-all uppercase tracking-wider text-sm shadow-md">
+                            Read More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--KEY FEATURES SECTION-->
+    <section class="max-w-6xl mx-auto my-12 md:my-24 px-6">
+        <div class="relative bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-112.5">
+
+            <div
+                class="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center items-center md:items-start z-10 bg-white text-center md:text-left">
+                <h2 class="text-3xl md:text-4xl font-black mb-8 md:mb-10 text-black">
+                    WHY USE <span class="text-french-blue">B.A.L.I.K.?</span>
+                </h2>
+
+                <ul class="space-y-6 inline-block">
+                    <li class="flex items-center gap-4 group">
+                        <div
+                            class="bg-green p-1.5 rounded-full text-white transition-transform group-hover:scale-110 shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-lg md:text-xl font-bold text-gray-700">Transparent Listing</span>
+                    </li>
+
+                    <li class="flex items-center gap-4 group">
+                        <div
+                            class="bg-green p-1.5 rounded-full text-white transition-transform group-hover:scale-110 shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-lg md:text-xl font-bold text-gray-700">Verified Claims</span>
+                    </li>
+
+                    <li class="flex items-center gap-4 group">
+                        <div
+                            class="bg-green p-1.5 rounded-full text-white transition-transform group-hover:scale-110 shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-lg md:text-xl font-bold text-gray-700">High-Visibility Matching</span>
+                    </li>
+
+                    <li class="flex items-center gap-4 group">
+                        <div
+                            class="bg-green p-1.5 rounded-full text-white transition-transform group-hover:scale-110 shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-lg md:text-xl font-bold text-gray-700">Organized Dashboard</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="relative w-full md:w-1/2 h-72 md:h-auto overflow-hidden">
+                <img src="../images/sarm-img2.jpg" alt="BulSU Gate"
+                    class="absolute inset-0 w-full h-full object-cover object-center">
+
+                <div class="absolute inset-0 bg-linear-to-r from-white via-white/20 to-transparent hidden md:block">
+                </div>
+
+                <div class="absolute inset-0 bg-linear-to-t from-white via-transparent to-transparent md:hidden"></div>
+            </div>
+        </div>
+    </section>
+
+    <!--CALL TO ACTION SECTION-->
+    <section class="bg-french-blue py-16 px-6 text-black">
+        <div
+            class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10 text-center md:text-left">
+
+            <div class="max-w-xl">
+                <p class="text-xl md:text-2xl font-medium mb-2">Lost Something?</p>
+                <h2 class="text-4xl md:text-[40px] font-black leading-tight">
+                    Let <span class="text-white">B.A.L.I.K.</span> help you recover it today.
+                </h2>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto justify-center">
+                <a href="report-lost-page.html"
+                    class="border-2 border-white text-white px-8 py-4 rounded-2xl font-bold uppercase tracking-wider text-center hover:bg-white hover:text-french-blue transition-all duration-300">
+                    I Have Lost
+                </a>
+                <a href="report-found-page.html"
+                    class="border-2 border-white text-white px-8 py-4 rounded-2xl font-bold uppercase tracking-wider text-center hover:bg-white hover:text-french-blue transition-all duration-300">
+                    I Have Found
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!--FOOTER SECTION-->
+    <footer class="bg-darkblue text-white pt-16">
+        <div class="max-w-7xl mx-auto px-6 pb-12 relative">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
+
+                <div class="md:col-span-2 flex flex-col items-center md:items-start">
+                    <div class="flex flex-col md:flex-row items-center gap-6 mb-6">
+                        <img src="../images/balik-logo-white.png" alt="B.A.L.I.K. Logo" class="h-32 object-contain">
+                        <div class="md:border-l-2 border-white/20 md:pl-6">
+                            <h2 class="text-2xl md:text-3xl font-black leading-tight">BulSU<br>Automated Lost<br>Item
+                                Keeper
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center md:items-start">
+                    <h3 class="text-xl font-bold mb-6 text-french-blue">Contact Us</h3>
+                    <ul class="space-y-4 text-sm opacity-90 text-left">
+                        <li class="flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-french-blue" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            +63 930 781 0612
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-french-blue" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            balikforbulsu@gmail.com
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="flex flex-col items-center md:items-start">
+                    <h3 class="text-xl font-bold mb-6 text-french-blue">Quick Links</h3>
+                    <ul class="space-y-4 font-bold">
+                        <li><a href="faqs-help.html" class="hover:text-french-blue transition-colors">Help & FAQs</a>
+                        </li>
+                        <li><a href="#" class="hover:text-french-blue transition-colors">Terms & Conditions</a></li>
+                        <li class="flex justify-center md:justify-start gap-4 pt-2">
+                            <a href="https://www.facebook.com/profile.php?id=61586363393433" target="_blank" rel="noopener noreferrer"
+                                class="inline-block">
+                                <img src="../icons/facebook-logo.png" alt="Facebook"
+                                    class="w-8 h-8 hover:scale-110 transition-transform object-contain">
+                            </a>
+                            
+                            <a href="https://www.instagram.com/balik.sarmiento/" target="_blank" rel="noopener noreferrer" class="inline-block">
+                                <img src="../icons/instagram.png" alt="Instagram"
+                                    class="w-8 h-8 hover:scale-110 transition-transform object-contain">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-semi-darkblue w-full py-2">
+            <p class="text-center text-sm font-regular tracking-wide">&copy; 2026 B.A.L.I.K. All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <button id="backToTop"
+        class="fixed bottom-8 right-8 z-100 bg-french-blue text-white p-4 rounded-full shadow-2xl opacity-0 translate-y-10 invisible transition-all duration-500 hover:bg-dark-blue hover:scale-110 cursor-pointer group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform group-hover:-translate-y-1"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- AI CHAT BOT-->
+    <button id="chat-fab" onclick="chatToggle()" title="Chat with B.A.L.I.K. AI"
+        class="fixed right-8 bottom-[32px] z-[9998] w-[60px] h-[60px] bg-gradient-to-br from-[#1a8fe3] to-[#17c3b2] rounded-full flex items-center justify-center cursor-pointer shadow-[0_10px_25px_rgba(26,143,227,0.3)] transition-all duration-500 cubic-bezier-[0.175,0.885,0.32,1.275] hover:scale-105 hover:shadow-[0_15px_30px_rgba(26,143,227,0.4)] animate-[chatPulse_3s_infinite_ease-in-out] p-0 border-none group [&.is-scrolled]:bottom-[105px]">
+        <img src="../icons/ai.png" alt="AI Icon" class="w-8 h-8 object-contain">
+    </button>
+
+    <div id="chat-modal"
+        class="fixed right-8 bottom-[100px] w-[340px] h-[490px] bg-white rounded-[18px] border border-[#e4e8ee] shadow-[0_12px_40px_rgba(26,143,227,0.12),0_4px_16px_rgba(0,0,0,0.08)] hidden flex-col z-[9997] overflow-hidden transition-all duration-500 [&.open]:flex [&.is-scrolled]:bottom-[180px]">
+
+        <div class="bg-gradient-to-br from-[#1a8fe3] to-[#17c3b2] p-4 flex items-center justify-between">
+            <div class="flex items-center gap-[10px]">
+                <div class="w-9 h-9 rounded-full bg-white/25 flex items-center justify-center text-base">🤖</div>
+                <div>
+                    <div class="text-white font-bold text-sm">B.A.L.I.K. AI</div>
+                    <div class="text-white/80 text-[11px] flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                        Online · Lost & Found Assistant
+                    </div>
+                </div>
+            </div>
+            <button onclick="chatToggle()"
+                class="bg-white/20 border-none text-white w-7 h-7 rounded-full cursor-pointer flex items-center justify-center hover:bg-white/35 transition-colors">✕</button>
+        </div>
+
+        <div id="chat-messages"
+            class="flex-1 overflow-y-auto p-[14px] flex flex-col gap-[10px] bg-[#f5f7fa] scroll-smooth">
+        </div>
+
+        <form class="flex gap-2 p-3 border-t border-[#e4e8ee] bg-white" onsubmit="chatSend(event)">
+            <input type="text" id="chat-input"
+                class="flex-1 px-3 py-2 border-[1.5px] border-[#e4e8ee] rounded-[10px] text-sm outline-none bg-[#f5f7fa] focus:border-[#1a8fe3] focus:bg-white transition-all"
+                placeholder="Type your question..." autocomplete="off">
+            <button type="submit"
+                class="w-[34px] h-[34px] border-none rounded-[10px] bg-gradient-to-br from-[#1a8fe3] to-[#17c3b2] text-white cursor-pointer flex items-center justify-center shadow-[0_2px_8px_rgba(26,143,227,0.3)] hover:opacity-90 active:scale-95 transition-all">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 7h12M8 2l5 5-5 5" />
+                </svg>
+            </button>
+        </form>
+
+        <div class="p-2 pb-2 text-center text-[10px] text-[#a0aab8] bg-white border-t border-[#e4e8ee]">
+            Powered by <strong class="text-[#1a8fe3]">B.A.L.I.K. · BulSU</strong>
+        </div>
+    </div>
+
+    <!--JS SCRIPT-->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/logout.js"></script>
+    <script src="../assets/js/chatbot.js"></script>
+
+
+    <script>
+        // ── Apply saved profile photo to navbar icon ──────────────────────────
+        (function () {
+            try {
+                var user = JSON.parse(localStorage.getItem('balik_user') || '{}');
+                if (!user.profile_photo) return;
+                var apply = function () {
+                    document.querySelectorAll('#user-icon').forEach(function (el) {
+                        el.src = user.profile_photo;
+                        el.style.objectFit = 'cover';
+                        el.style.borderRadius = '9999px';
+                        el.dataset.hasPhoto = '1';
+                    });
+                };
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', apply);
+                } else {
+                    apply();
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+
+<script>
+// Fix #2: Move chatbot FAB and modal up when backToTop arrow is visible
+(function() {
+    var fab   = document.getElementById('chat-fab');
+    var modal = document.getElementById('chat-modal');
+    var btt   = document.getElementById('backToTop');
+    if (!btt) return;
+    function syncChatPos() {
+        var vis = btt.classList.contains('opacity-100') && !btt.classList.contains('invisible');
+        if (fab)   fab.style.bottom   = vis ? '108px' : '32px';
+        if (modal) modal.style.bottom = vis ? '180px' : '100px';
+    }
+    var obs = new MutationObserver(syncChatPos);
+    obs.observe(btt, { attributes: true, attributeFilter: ['class'] });
+    syncChatPos();
+})();
+</script>
+
+</body>
+
+</html>

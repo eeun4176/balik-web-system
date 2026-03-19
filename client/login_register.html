@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - B.A.L.I.K</title>
+
+    <link rel="icon" type="image/png" href="../images/balik-icon.png" alt="B.A.L.I.K Logo">
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ── Desktop panel slide transitions (untouched from original) ── */
+        #hero-side    { transition: transform 700ms ease-in-out !important; }
+        #register-box { transform: translateX(-100%); opacity: 0; pointer-events: none;
+                        transition: transform 700ms ease-in-out, opacity 400ms ease-in-out; }
+        #login-box    { transition: transform 700ms ease-in-out, opacity 400ms ease-in-out; }
+
+        /* ── OTP input boxes ── */
+        .otp-input {
+            width: 52px; height: 60px;
+            text-align: center; font-size: 24px; font-weight: 700;
+            background: #F3F4F6; border: 2px solid transparent;
+            border-radius: 14px; outline: none; color: #1f2937;
+            transition: border-color .2s, box-shadow .2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .otp-input:focus { border-color: #077FC4; box-shadow: 0 0 0 4px rgba(7,127,196,.12); background: #fff; }
+        .otp-input.filled { border-color: #077FC4; background: #f0f9ff; }
+        .otp-input.error  { border-color: #ef4444; background: #fef2f2; animation: shake .3s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+        .timer-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#077FC4; margin-right:6px; animation: pulse 1.2s ease-in-out infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
+
+        /* ── Mobile (max 767px) ── */
+        @media (max-width: 767px) {
+            #main-container {
+                height: 100svh;
+                overflow: hidden !important;
+                position: relative;
+            }
+            /* Hero image hidden on mobile */
+            #hero-side { display: none !important; }
+
+            /* All form panels: absolute, full width, slide transitions */
+            #login-box,
+            #register-box,
+            #otp-box {
+                position: absolute !important;
+                top: 0; left: 0;
+                width: 100% !important;
+                height: 100% !important;
+                overflow-y: auto;
+                padding: 2.5rem 1.5rem !important;
+                transition: transform 500ms ease-in-out, opacity 400ms ease-in-out !important;
+                opacity: 1;
+                pointer-events: auto;
+            }
+            /* Login: visible by default */
+            #login-box    { transform: translateX(0);     display: flex; }
+            /* Register: off to the right by default */
+            #register-box { transform: translateX(100%);  display: flex; }
+            /* OTP: off to the right */
+            #otp-box      { transform: translateX(100%);  display: flex; }
+            .mobile-hidden { display: none !important; }
+
+            /* Smaller OTP inputs */
+            .otp-input { width: 42px; height: 52px; font-size: 20px; }
+
+            /* Toast from bottom on mobile */
+            #statusToast {
+                top: auto !important;
+                bottom: 20px;
+                right: 20px !important;
+                transform: translateX(calc(100% + 40px));
+                max-width: calc(100vw - 40px);
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ── Tablet (768px–1023px) ── */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            #login-box, #register-box, #otp-box {
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="statusToast"
+        class="fixed top-5 right-5 transition-all duration-500 p-4 rounded-[20px] text-white z-[9999] font-medium shadow-2xl"
+        style="transform: translateX(calc(100% + 40px));">
+    </div>
+
+    <div id="main-container" class="h-screen flex bg-white overflow-hidden relative">
+
+        <!-- ── HERO (desktop only) ── -->
+        <div id="hero-side"
+            class="absolute top-0 left-0 w-full md:w-1/2 h-full z-20 transition-all duration-[700ms] ease-in-out transform translate-x-0 flex items-end p-10 lg:p-20">
+            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../images/sarm-img2.jpg');">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#077FC4] via-[#077FC4]/80 to-[#FFFFFF]/20"></div>
+            </div>
+            <div id="hero-content" class="relative z-10 text-white transition-opacity duration-300">
+                <h1 id="hero-title" class="text-6xl font-semibold leading-tight tracking-tight">Welcome <br> Back!</h1>
+                <p id="hero-desc" class="mt-6 text-white font-regular text-md opacity-90 leading-relaxed max-w-md">
+                    Sign in to manage your reports <br> and claims.</p>
+            </div>
+        </div>
+
+        <!-- ── LOGIN ── -->
+        <div id="login-box"
+            class="w-full md:w-1/2 h-full flex flex-col items-center justify-center p-10 lg:p-24 bg-white absolute right-0 z-10">
+            <div class="w-full max-w-sm flex flex-col items-center">
+                <div class="mb-8"><img src="../images/balik-icon.png" alt="BALIK Logo"
+                        class="w-32 h-auto object-contain"></div>
+
+                <h2 id="login-form-title"
+                    class="text-4xl font-bold text-gray-900 tracking-tighter mb-12 uppercase text-center">
+                    LOG <span class="text-[#077FC4]">IN</span>
+                </h2>
+
+                <form id="loginForm" class="w-full space-y-6">
+                    <div id="login-form-inputs" class="space-y-6">
+                        <div class="relative group">
+                            <input type="text" id="login-email" name="email" required
+                                class="w-full px-6 py-4 bg-gray-100 border-none rounded-[20px] text-gray-800 outline-none focus:ring-2 focus:ring-[#077FC4]/20 transition-all placeholder:text-gray-400"
+                                placeholder="Contact Email">
+                            <span class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="relative group">
+                            <input type="password" id="login-password" name="password" required
+                                class="w-full px-6 py-4 bg-gray-100 border-none rounded-[20px] text-gray-800 outline-none focus:ring-2 focus:ring-[#077FC4]/20 transition-all placeholder:text-gray-400"
+                                placeholder="Password">
+                            <span id="toggle-password"
+                                class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-[#077FC4]">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18">
+                                    </path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button id="login-submit-btn" type="submit"
+                        class="w-full py-4 bg-[#077FC4] text-white font-bold rounded-[20px] shadow-xl shadow-[#077FC4]/30 hover:bg-[#066ba5] transition-all transform active:scale-[0.97]">Sign In</button>
+
+                    <p id="login-toggle-text" class="text-center text-sm mt-3">
+                        <a href="javascript:void(0)" onclick="showForgotPassword()"
+                            class="text-[#077FC4] font-bold hover:underline">Forgot Password</a>
+                    </p>
+                    <p class="text-center text-sm text-gray-400 mt-10">
+                        Don't have an Account? <a href="javascript:void(0)" onclick="toggleView(true)"
+                            class="text-[#077FC4] font-bold hover:underline">Sign Up</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- ── REGISTER ── -->
+        <div id="register-box"
+            class="w-full md:w-1/2 h-full flex flex-col items-center justify-center p-10 lg:p-24 bg-white absolute left-0 z-10">
+            <div class="w-full max-w-sm flex flex-col items-center">
+                <div class="mb-4"><img src="../images/balik-icon.png" alt="BALIK Logo"
+                        class="w-24 h-auto object-contain"></div>
+                <h2 class="text-3xl font-bold text-gray-900 tracking-tighter mb-8 uppercase text-center">SIGN <span
+                        class="text-[#077FC4]">UP</span></h2>
+
+                <form id="registerForm" class="w-full space-y-4">
+                    <input type="text" name="name" placeholder="Full Name" required
+                        class="w-full px-6 py-3 bg-gray-100 border-none rounded-[20px] outline-none focus:ring-2 focus:ring-[#077FC4]/20">
+                    <div class="flex gap-4">
+                        <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            name="age" placeholder="Age"
+                            class="w-1/4 px-6 py-3 bg-gray-100 border-none rounded-[20px] outline-none focus:ring-2 focus:ring-[#077FC4]/20">
+                        <div class="relative w-3/4 flex items-center">
+                            <select name="affiliation"
+                                class="w-full px-6 py-3 bg-gray-100 border-none rounded-[20px] outline-none text-gray-500 appearance-none cursor-pointer focus:ring-2 focus:ring-[#077FC4]/20">
+                                <option value="" disabled selected>Select Affiliation</option>
+                                <option value="student">Student</option>
+                                <option value="faculty">Faculty</option>
+                                <option value="non-teaching">Non-Teaching Staff</option>
+                                <option value="security">Security Personnel</option>
+                                <option value="maintenance">Maintenance Personnel</option>
+                                <option value="visitor">Visitor</option>
+                                <option value="external">Externals</option>
+                            </select>
+                            <img src="../icons/down-arrow.png"
+                                class="absolute right-5 w-4 h-4 object-contain pointer-events-none opacity-60"
+                                alt="dropdown icon">
+                        </div>
+                    </div>
+                    <input type="email" name="email" placeholder="Email" required
+                        class="w-full px-6 py-3 bg-gray-100 border-none rounded-[20px] outline-none focus:ring-2 focus:ring-[#077FC4]/20">
+                    <input type="password" name="password" placeholder="Password" required
+                        class="w-full px-6 py-3 bg-gray-100 border-none rounded-[20px] outline-none focus:ring-2 focus:ring-[#077FC4]/20">
+                    <input type="password" name="confirm-password" placeholder="Confirm Password" required
+                        class="w-full px-6 py-3 bg-gray-100 border-none rounded-[20px] outline-none focus:ring-2 focus:ring-[#077FC4]/20">
+
+                    <div class="flex items-start px-1 pl-6 pt-2 pb-2 gap-3">
+                        <input id="register-terms" type="checkbox" required
+                            class="w-5 h-5 mt-0.5 shrink-0 text-[#077FC4] border-gray-300 rounded focus:ring-[#077FC4] cursor-pointer">
+                        <span class="text-xs text-gray-500 font-medium leading-normal">
+                            I agree to the
+                            <button type="button" onclick="toggleTermsModal(true)" class="text-[#077FC4] font-bold hover:underline cursor-pointer bg-transparent border-none p-0">Terms of Service</button>
+                            and
+                            <button type="button" onclick="togglePrivacyModal(true)" class="text-[#077FC4] font-bold hover:underline cursor-pointer bg-transparent border-none p-0">Privacy Policy</button>.
+                        </span>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full py-4 bg-[#077FC4] text-white font-bold rounded-[20px] shadow-xl shadow-[#077FC4]/30 hover:bg-[#066ba5] transition-all transform active:scale-[0.97]">Create Account</button>
+                    <p class="text-center text-sm text-gray-400 mt-6">Have an Account? <a href="javascript:void(0)"
+                            onclick="toggleView(false)" class="text-[#077FC4] font-bold hover:underline">Log In</a></p>
+                </form>
+            </div>
+        </div>
+
+        
+
+        <!-- ── OTP VERIFICATION BOX ── -->
+        <div id="otp-box"
+            class="hidden w-full md:w-1/2 h-full flex-col items-center justify-center p-10 lg:p-24 bg-white absolute right-0 z-30">
+            <div class="w-full max-w-sm flex flex-col items-center">
+                <div class="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center mb-6">
+                    <svg class="w-10 h-10 text-[#077FC4]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900 tracking-tighter mb-3 uppercase text-center">
+                    VERIFY <span class="text-[#077FC4]">EMAIL</span>
+                </h2>
+                <p class="text-sm text-gray-500 text-center mb-2">We sent a 6-digit code to</p>
+                <p id="otp-email-display" class="text-sm font-bold text-[#077FC4] mb-8 text-center break-all"></p>
+                <div id="otp-inputs" class="flex gap-3 mb-8">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                    <input class="otp-input" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+                </div>
+                <p id="otp-error" class="hidden text-sm text-red-500 font-medium text-center mb-4 -mt-4"></p>
+                <div class="flex items-center justify-center mb-8 text-sm">
+                    <span id="otp-timer-wrap" class="flex items-center text-gray-500">
+                        <span class="timer-dot"></span>
+                        Code expires in <span id="otp-countdown" class="font-bold text-[#077FC4] ml-1">10:00</span>
+                    </span>
+                    <button id="otp-resend-btn"
+                        class="hidden text-[#077FC4] font-bold hover:underline cursor-pointer"
+                        onclick="handleResendOtp()">Resend Code</button>
+                </div>
+                <button id="otp-verify-btn"
+                    class="w-full py-4 bg-[#077FC4] text-white font-bold rounded-[20px] shadow-xl shadow-[#077FC4]/30 hover:bg-[#066ba5] transition-all active:scale-[0.97]"
+                    onclick="handleVerifyOtp()">Verify Account</button>
+                <button onclick="backToRegister()"
+                    class="mt-6 text-sm text-gray-400 hover:text-gray-600 transition-colors cursor-pointer">
+                    ← Back to Sign Up
+                </button>
+            </div>
+        </div>
+
+    </div><!-- end main-container -->
+
+    <!--PRIVACY POLICY MODAL-->
+    <div id="privacy-policy-modal"
+        class="fixed inset-0 z-[10000] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-[20px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-8 pb-4 flex flex-col items-center border-b border-gray-100">
+                <img src="../images/balik-icon.png" alt="BALIK Logo" class="w-24 h-auto object-contain mb-4">
+                <div class="flex items-center gap-4 w-full">
+                    <div class="h-[1px] bg-gray-300 flex-grow"></div>
+                    <h2 class="text-2xl font-bold text-[#077FC4] uppercase">Privacy Policy</h2>
+                    <div class="h-[1px] bg-gray-300 flex-grow"></div>
+                </div>
+            </div>
+
+            <div class="p-8 overflow-y-auto text-sm text-gray-600 custom-scrollbar">
+                <p class="mb-6">This privacy policy applies to any person who provides information as part of the
+                    registration or reporting process. By using the BALIK system, the registrant also consents to the
+                    University/Organization to collect, use, process, and access any personal information appertaining
+                    to any purposes deemed legal. All information provided by the registrant will be treated with full
+                    confidentiality.</p>
+
+                <h3 class="text-lg font-bold text-gray-900 mb-3">Collection of User Data</h3>
+                <p class="mb-3">We collect personal information from students, faculty, staff, visitors, and externals
+                    for the purpose of facilitating our lost and found management services.</p>
+                <ul class="list-disc pl-5 space-y-2 mb-6">
+                    <li>Full name</li>
+                    <li>Age and Affiliation (Student, Faculty, Visitor, etc.)</li>
+                    <li>Contact information (Email address)</li>
+                    <li>Item details (Descriptions and photographs of lost or found items)</li>
+                    <li>Identification records (For verification during item claims)</li>
+                </ul>
+
+                <h3 class="text-lg font-bold text-gray-900 mb-3">Use of User Data</h3>
+                <p class="mb-3">We use the data collected through the BALIK system solely for the following purposes:
+                </p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>Facilitating item recovery services, matching lost reports with found items, and coordinating
+                        communication between finders and owners.</li>
+                    <li>Verifying ownership during the claim process to ensure items are returned to the correct
+                        individuals.</li>
+                    <li>Providing technical support and maintenance for the BALIK management platform.</li>
+                    <li>Conducting statistical analysis to improve system efficiency, provided that the data is
+                        anonymized and aggregated.</li>
+                </ul>
+            </div>
+
+            <div class="p-6 bg-gray-50 border-t flex justify-center">
+                <button onclick="togglePrivacyModal(false)"
+                    class="px-10 py-3 bg-[#077FC4] text-white font-bold rounded-[20px]">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!--TERM OF USE MODAL-->
+    <div id="terms-modal"
+        class="fixed inset-0 z-[10000] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-[20px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-8 pb-4 flex flex-col items-center border-b border-gray-100">
+                <img src="../images/balik-icon.png" alt="BALIK Logo" class="w-24 h-auto object-contain mb-4">
+                <div class="flex items-center gap-4 w-full">
+                    <div class="h-[1px] bg-gray-300 flex-grow"></div>
+                    <h2 class="text-2xl font-bold text-[#077FC4] uppercase">Terms of Service</h2>
+                    <div class="h-[1px] bg-gray-300 flex-grow"></div>
+                </div>
+            </div>
+
+            <div class="p-8 overflow-y-auto max-h-[50vh] text-sm text-gray-600 leading-relaxed custom-scrollbar">
+                <p class="mb-6">By accessing or using the BALIK platform, you signify your agreement to be bound by
+                    these Terms of Service, which govern your conduct and responsibilities while reporting or claiming
+                    lost and found items within the system.</p>
+
+                <h3 class="text-lg font-bold text-gray-900 mb-3">1. Acceptance of Terms</h3>
+                <p class="mb-3">By accessing or using the BALIK platform, you agree to be bound by these Terms of
+                    Service. If you do not agree to these terms, please do not use the system.</p>
+
+                <h3 class="text-lg font-bold text-gray-900 mb-3">2. User Responsibilities</h3>
+                <ul class="list-disc pl-5 space-y-2 mb-3">
+                    <li>Accuracy of Information: You agree to provide true, accurate, and complete information when
+                        registering an account or filing a report (Lost or Found).</li>
+                    <li>Honesty in Claims: Users must not filed fraudulent claims. Claiming an item that does not belong
+                        to you is strictly prohibited and may result in disciplinary action.</li>
+                    <li>Verification: You agree to cooperate with the system administrators or security personnel during
+                        the verification process, which may include providing proof of ownership or valid
+                        identification.</li>
+                </ul>
+
+                <h3 class="text-lg font-bold text-gray-900 mb-3">3. Prohibited Conduct</h3>
+                <ul class="list-disc pl-5 space-y-2 mb-3">
+                    <li>Users shall not use the platform to harass, threaten, or defraud other users.</li>
+                    <li>You may not upload false images or descriptions of items to mislead the community or
+                        administrators.</li>
+                </ul>
+
+                <h3 class="text-lg font-bold text-gray-900 mb-3">4. Limitation of Liability</h3>
+                <p class="mb-3">The BALIK system is a facilitation tool. While we strive to ensure the safe return of
+                    items, the platform and its administrators are not responsible for the physical condition of found
+                    items or for items that are not successfully recovered.</p>
+
+            </div>
+
+            <div class="p-6 bg-gray-50 border-t flex justify-center">
+                <button onclick="toggleTermsModal(false)"
+                    class="px-10 py-3 bg-[#077FC4] text-white font-bold rounded-[20px]">Close</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <!--
+        Mobile panel switcher — runs BEFORE login_signup.js.
+        On mobile (< 768px): no sliding animations, just show/hide panels.
+        login_signup.js calls toggleView() and showPanel() — those functions
+        check window.innerWidth and delegate here when on mobile.
+    -->
+    <script>
+        window._isMobile = function () { return window.innerWidth < 768; };
+
+        window._mobileShowPanel = function (panelId) {
+            var all = ['login-box', 'register-box', 'otp-box'];
+            // Determine direction: register/otp slide from right, login from left
+            var order = { 'login-box': 0, 'register-box': 1, 'otp-box': 2 };
+            var targetOrder = order[panelId] || 0;
+            all.forEach(function (id) {
+                var el = document.getElementById(id);
+                if (!el) return;
+                el.style.display = 'flex';
+                el.style.pointerEvents = id === panelId ? 'auto' : 'none';
+                if (id === panelId) {
+                    el.style.transform = 'translateX(0)';
+                    el.style.opacity = '1';
+                    el.scrollTop = 0;
+                } else {
+                    var elOrder = order[id] || 0;
+                    el.style.transform = elOrder < targetOrder ? 'translateX(-100%)' : 'translateX(100%)';
+                    el.style.opacity = '0.5';
+                }
+            });
+        };
+
+        var _lastWasMobile = window._isMobile();
+
+        window.addEventListener('resize', function () {
+            var nowMobile = window._isMobile();
+            if (_lastWasMobile === nowMobile) return; // no breakpoint crossing, skip
+            _lastWasMobile = nowMobile;
+
+            var current = window._loginMode || 'login';
+
+            if (nowMobile) {
+                // ── Crossed into MOBILE ──
+                var panelMap = { login: 'login-box', register: 'register-box', otp: 'otp-box' };
+                var target = panelMap[current] || 'login-box';
+                window._mobileShowPanel(target);
+            } else {
+                // ── Crossed into DESKTOP ──
+                // Clear ALL inline styles set by _mobileShowPanel so CSS/JS desktop logic takes over
+                ['login-box', 'register-box', 'otp-box'].forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (!el) return;
+                    el.style.display = '';
+                    el.style.opacity = '';
+                    el.style.transform = '';
+                    el.style.pointerEvents = '';
+                    el.style.position = '';
+                    el.style.width = '';
+                    el.style.height = '';
+                    el.style.minHeight = '';
+                    el.style.overflow = '';
+                    el.style.padding = '';
+                });
+
+                // Restore hero
+                var hero = document.getElementById('hero-side');
+                if (hero) {
+                    hero.style.display = '';
+                    // Position hero based on current mode
+                    hero.style.transform = (current === 'register') ? 'translateX(100%)' : 'translateX(0)';
+                }
+
+                // Re-apply desktop panel state
+                var loginBox    = document.getElementById('login-box');
+                var registerBox = document.getElementById('register-box');
+                var otpBox      = document.getElementById('otp-box');
+
+                if (current === 'login') {
+                    loginBox.style.transform     = 'translateX(0)';
+                    loginBox.style.opacity       = '1';
+                    loginBox.style.pointerEvents = 'auto';
+                    registerBox.style.transform  = 'translateX(-100%)';
+                    registerBox.style.opacity    = '0';
+                    registerBox.style.pointerEvents = 'none';
+                    otpBox.classList.add('hidden');
+                    otpBox.classList.remove('flex');
+                } else if (current === 'register') {
+                    registerBox.style.transform    = 'translateX(0)';
+                    registerBox.style.opacity      = '1';
+                    registerBox.style.pointerEvents = 'auto';
+                    loginBox.style.transform       = 'translateX(100%)';
+                    loginBox.style.opacity         = '0';
+                    loginBox.style.pointerEvents   = 'none';
+                    otpBox.classList.add('hidden');
+                    otpBox.classList.remove('flex');
+                } else if (current === 'otp') {
+                    loginBox.style.transform     = 'translateX(100%)';
+                    loginBox.style.opacity       = '0';
+                    loginBox.style.pointerEvents = 'none';
+                    registerBox.style.transform  = 'translateX(-100%)';
+                    registerBox.style.opacity    = '0';
+                    registerBox.style.pointerEvents = 'none';
+                    otpBox.classList.remove('hidden');
+                    otpBox.classList.add('flex');
+                    otpBox.style.opacity       = '1';
+                    otpBox.style.pointerEvents = 'auto';
+                }
+            }
+        });
+    </script>
+    <script src="../assets/js/login_signup.js"></script>
+
+</body>
+
+</html>

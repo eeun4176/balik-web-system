@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - B.A.L.I.K</title>
+    <link rel="icon" type="image/png" href="../images/balik-icon.png">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .otp-input { letter-spacing: 0.5em; }
+        .otp-box {
+            width: 56px; height: 64px;
+            font-size: 1.75rem; font-weight: 700;
+            text-align: center;
+            background: #f3f4f6;
+            border: 2px solid transparent;
+            border-radius: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            caret-color: #077FC4;
+        }
+        .otp-box:focus { border-color: #077FC4; box-shadow: 0 0 0 4px rgba(7,127,196,0.12); }
+        .otp-box.filled { border-color: #077FC4; background: #EFF7FF; color: #077FC4; }
+        .otp-box.error  { border-color: #EF4444; background: #FFF5F5; color: #EF4444; }
+        #statusToast {
+            position: fixed; top: 20px; right: -400px;
+            padding: 14px 22px; border-radius: 20px;
+            color: white; font-weight: 500;
+            transition: right 0.5s; z-index: 9999;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+
+    <div id="statusToast"></div>
+
+    <div class="w-full max-w-md">
+        <!-- Card -->
+        <div class="bg-white rounded-[28px] shadow-2xl shadow-gray-200/80 p-10 flex flex-col items-center">
+
+            <!-- Logo -->
+            <img src="../images/balik-icon.png" alt="B.A.L.I.K Logo" class="w-20 h-auto object-contain mb-6">
+
+            <!-- Icon -->
+            <div class="w-16 h-16 rounded-full bg-[#EFF7FF] flex items-center justify-center mb-6">
+                <svg class="w-8 h-8 text-[#077FC4]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-900 tracking-tight uppercase text-center mb-2">
+                VERIFY <span class="text-[#077FC4]">EMAIL</span>
+            </h1>
+            <p class="text-gray-500 text-sm text-center mb-2">
+                We sent a 6-digit OTP code to:
+            </p>
+            <p id="email-display" class="text-[#077FC4] font-semibold text-sm text-center mb-8 truncate max-w-full px-4">
+                loading...
+            </p>
+
+            <!-- OTP Boxes -->
+            <div id="otp-container" class="flex gap-3 mb-8" role="group" aria-label="OTP input">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" autocomplete="one-time-code">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" pattern="[0-9]">
+            </div>
+
+            <!-- Timer -->
+            <p class="text-sm text-gray-400 mb-6">
+                Code expires in <span id="timer" class="font-semibold text-gray-600">10:00</span>
+            </p>
+
+            <!-- Verify Button -->
+            <button id="verify-btn"
+                class="w-full py-4 bg-[#077FC4] text-white font-bold rounded-[20px] shadow-xl shadow-[#077FC4]/30 hover:bg-[#066ba5] transition-all transform active:scale-[0.97] mb-4">
+                Verify Account
+            </button>
+
+            <!-- Resend -->
+            <p class="text-sm text-gray-400 text-center">
+                Didn't receive it?
+                <button id="resend-btn" class="text-[#077FC4] font-bold hover:underline ml-1 disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+                    Resend OTP
+                </button>
+            </p>
+
+            <!-- Back to login -->
+            <a href="login_register.html" class="mt-6 text-xs text-gray-400 hover:text-[#077FC4] transition-colors">
+                ← Back to Log In
+            </a>
+        </div>
+
+        <!-- Dev hint -->
+        <p class="text-center text-xs text-gray-400 mt-4">
+            📋 OTP is printed in your server console during development.
+        </p>
+    </div>
+
+    <script>
+        // ─── Init ─────────────────────────────────────────────────────────────
+        const params = new URLSearchParams(window.location.search);
+        const email  = params.get('email') || '';
+        const mode   = params.get('mode') || 'verify'; // 'verify' or 'reset'
+
+        document.getElementById('email-display').textContent = email || 'your email';
+
+        // ─── Toast ────────────────────────────────────────────────────────────
+        function showToast(msg, ok) {
+            const t = document.getElementById('statusToast');
+            t.textContent = msg;
+            t.style.backgroundColor = ok ? '#077FC4' : '#EF4444';
+            t.style.right = '20px';
+            setTimeout(() => { t.style.right = '-400px'; }, 3500);
+        }
+
+        // ─── OTP Boxes ────────────────────────────────────────────────────────
+        const boxes = Array.from(document.querySelectorAll('.otp-box'));
+
+        boxes.forEach((box, i) => {
+            box.addEventListener('input', e => {
+                const val = e.target.value.replace(/\D/g, '');
+                e.target.value = val.slice(-1); // keep only last digit
+                if (val && i < boxes.length - 1) boxes[i + 1].focus();
+                updateFilled();
+            });
+            box.addEventListener('keydown', e => {
+                if (e.key === 'Backspace' && !box.value && i > 0) {
+                    boxes[i - 1].value = '';
+                    boxes[i - 1].focus();
+                }
+                if (e.key === 'ArrowLeft'  && i > 0) boxes[i - 1].focus();
+                if (e.key === 'ArrowRight' && i < boxes.length - 1) boxes[i + 1].focus();
+            });
+            box.addEventListener('paste', e => {
+                e.preventDefault();
+                const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+                pasted.split('').forEach((ch, j) => { if (boxes[j]) boxes[j].value = ch; });
+                const last = Math.min(pasted.length, boxes.length - 1);
+                boxes[last].focus();
+                updateFilled();
+            });
+        });
+
+        function updateFilled() {
+            boxes.forEach(b => {
+                b.classList.toggle('filled', !!b.value);
+                b.classList.remove('error');
+            });
+        }
+
+        function getOTP() {
+            return boxes.map(b => b.value).join('');
+        }
+
+        function setError() {
+            boxes.forEach(b => { b.classList.add('error'); b.classList.remove('filled'); });
+        }
+
+        // ─── Countdown Timer ──────────────────────────────────────────────────
+        let seconds = 600; // 10 minutes
+        const timerEl   = document.getElementById('timer');
+        const resendBtn = document.getElementById('resend-btn');
+
+        const countdown = setInterval(() => {
+            seconds--;
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            timerEl.textContent = `${m}:${s}`;
+            if (seconds <= 0) {
+                clearInterval(countdown);
+                timerEl.textContent = 'Expired';
+                timerEl.classList.add('text-red-500');
+                resendBtn.disabled = false;
+            }
+        }, 1000);
+
+        // Enable resend after 60 seconds
+        setTimeout(() => { resendBtn.disabled = false; }, 60000);
+
+        // ─── Verify ───────────────────────────────────────────────────────────
+        document.getElementById('verify-btn').addEventListener('click', async () => {
+            const otp = getOTP();
+            if (otp.length < 6) { showToast('Please enter the full 6-digit code.', false); return; }
+
+            const btn = document.getElementById('verify-btn');
+            btn.disabled = true; btn.textContent = 'Verifying...'; btn.style.opacity = '0.7';
+
+            try {
+                const res  = await fetch('/api/auth/verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, otp })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    // Visual success feedback
+                    boxes.forEach(b => { b.style.borderColor = '#22c55e'; b.style.background = '#f0fdf4'; b.style.color = '#16a34a'; });
+                    showToast('Email verified! Redirecting to login...', true);
+                    clearInterval(countdown);
+                    setTimeout(() => { window.location.href = 'login_register.html'; }, 1800);
+                } else {
+                    setError();
+                    showToast(data.error || 'Invalid OTP. Please try again.', false);
+                    btn.disabled = false; btn.textContent = 'Verify Account'; btn.style.opacity = '1';
+                }
+            } catch {
+                showToast('Network error. Is the server running?', false);
+                btn.disabled = false; btn.textContent = 'Verify Account'; btn.style.opacity = '1';
+            }
+        });
+
+        // ─── Resend OTP ───────────────────────────────────────────────────────
+        resendBtn.addEventListener('click', async () => {
+            resendBtn.disabled = true;
+            try {
+                const res  = await fetch('/api/auth/resend-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('New OTP sent! Check your email (or server console).', true);
+                    // Reset timer
+                    seconds = 600;
+                    timerEl.classList.remove('text-red-500');
+                    boxes.forEach(b => { b.value = ''; b.classList.remove('filled', 'error'); });
+                    boxes[0].focus();
+                    setTimeout(() => { resendBtn.disabled = false; }, 60000);
+                } else {
+                    showToast(data.error || 'Failed to resend OTP.', false);
+                    resendBtn.disabled = false;
+                }
+            } catch {
+                showToast('Network error.', false);
+                resendBtn.disabled = false;
+            }
+        });
+
+        // Auto-focus first box
+        boxes[0].focus();
+    </script>
+</body>
+</html>

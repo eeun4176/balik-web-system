@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/*#navbar {
+    transition: background-color 0.4s ease-in-out, padding 0.4s ease-in-out, color 0.3s ease;
+}*/
+
+@theme {
+  --color-off-white: #FAF9F6;
+  --color-french-blue: #077FC4;
+  --color-hover-blue: #0A74B3;
+  --color-dark-blue: #055A8B;
+  --color-hover-white: #F3F4F6;
+  --color-light-gray: #555555;
+  --color-dark-gray: #1F2937;
+  --color-green: #66C5A4;
+  --color-semi-darkblue: #223544;
+  --color-darkblue: #1C2E3B;
+}
+
+html {
+    font-family: 'Poppins', sans-serif;
+}
+  
+  /* This forces inputs and buttons to inherit the font */
+input, button, select, textarea {
+   font-family: inherit;
+}
+  
+#nav-logo {
+    /* Focus specifically on height and transform for the logo */
+    transition: height 0.3s ease-in-out, filter 0.3s ease;
+    /* Optional: helps the logo pop against the background */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+#navbar {
+    /* Adding border-color to the transition list */
+    transition: background-color 0.3s, padding 0.3s, border-color 0.3s, color 0.3s;
+}
+
+/* Ensure the text flows nicely and matches the image's "Modern" feel */
+h2 {
+    letter-spacing: -0.02em;
+}
+
+p {
+    /* Slightly wider line height for readability like in the image */
+    line-height: 1.8;
+}
+
+@layer components {
+  .flip-card {
+    perspective: 1000px;
+  }
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* For Safari support */
+  }
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+}
+
+.active-verify img {
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+}
+
+/* Your existing active button style */
+.active-verify {
+    @apply bg-french-blue text-white border-french-blue;
+}
+
+/*Chatbot*/
+@layer components {
+    /* Custom Pulse Animation */
+    @keyframes chatPulse {
+        0%, 100% { box-shadow: 0 4px 16px rgba(26,143,227,0.35), 0 6px 20px rgba(0,0,0,0.1); }
+        50% { box-shadow: 0 6px 22px rgba(23,195,178,0.45), 0 8px 24px rgba(0,0,0,0.12); }
+    }
+
+    /* Helper styles for dynamically generated messages from your script */
+    .chat-msg {
+        @apply max-w-[82%] px-[13px] py-[9px] rounded-[14px] text-[13px] leading-[1.5] break-words;
+    }
+
+    .chat-msg.user {
+        background: linear-gradient(135deg, #1a8fe3 0%, #17c3b2 100%);
+        @apply text-white self-end rounded-br-[4px];
+    }
+
+    .chat-msg.bot {
+        @apply bg-white text-[#1a202c] border border-[#e4e8ee] self-start rounded-bl-[4px];
+    }
+
+    /* Typing Dots Animation */
+    .typing-dot {
+        @apply inline-block mx-[1px] opacity-20 animate-[dotBlink_1.4s_infinite];
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dotBlink {
+        0%, 80%, 100% { opacity: 0.2; }
+        40% { opacity: 1; }
+    }
+}
+
+@layer utilities {
+    .animate-chat-pulse {
+        animation: chatPulse 3s infinite ease-in-out;
+    }
+}
+
+/* Ensure the FAB lifts up */
+#chat-fab.is-scrolled {
+    bottom: 105px !important;
+}
+
+/* Ensure the Modal lifts up */
+#chat-modal.is-scrolled {
+    bottom: 180px !important;
+}
+
+/* Optional: Add a smooth transition for the bottom property */
+#chat-fab, #chat-modal {
+    transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.3s;
+}
