@@ -97,34 +97,36 @@
                     id="icon-wrapper">
 
                     <div class="relative group py-2">
-    <button class="flex items-center cursor-pointer outline-none group/bell">
-        <div class="relative p-1.5 rounded-full border-2 border-transparent group-hover/bell:border-french-blue transition-all duration-300">
-            
-            <img id="notif-bell" src="../icons/notif-bell.png"
-                class="w-6 h-6 transition-all duration-300 brightness-0 invert" alt="Notifications">
-            
-            <span id="notif-dot" 
-                style="display: none;" 
-                class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white shadow-sm">
-            </span>
+                        <button class="flex items-center cursor-pointer outline-none group/bell">
+                            <div
+                                class="relative p-1.5 rounded-full border-2 border-transparent group-hover/bell:border-french-blue transition-all duration-300">
 
-        </div>
-    </button>
+                                <img id="notif-bell" src="../icons/notif-bell.png"
+                                    class="w-6 h-6 transition-all duration-300 brightness-0 invert" alt="Notifications">
 
-    <div class="absolute right-0 top-full hidden group-hover:block w-80 -mt-1 pt-4 z-50 transition-all">
-        <div class="bg-white text-gray-800 shadow-2xl rounded-lg overflow-hidden border border-gray-100">
-            <div class="flex border-b border-gray-100 p-1" id="notif-tabs">
-                <button onclick="switchTab('unread')" id="unread-tab"
-                    class="flex-1 py-2 text-sm font-bold text-french-blue border-2 border-transparent hover:border-french-blue rounded-md transition-all duration-300 cursor-pointer">Unread</button>
-                <button onclick="switchTab('read')" id="read-tab"
-                    class="flex-1 py-2 text-sm font-medium text-gray-500 border-2 border-transparent hover:border-french-blue rounded-md transition-all duration-300 cursor-pointer">Read</button>
-            </div>
-            <div id="notif-content"
-                class="max-h-80 overflow-y-auto p-12 text-center text-gray-400 text-xs italic">No
-                new notifications</div>
-        </div>
-    </div>
-</div>
+                                <span id="notif-dot" style="display: none;"
+                                    class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white shadow-sm">
+                                </span>
+
+                            </div>
+                        </button>
+
+                        <div
+                            class="absolute right-0 top-full hidden group-hover:block w-80 -mt-1 pt-4 z-50 transition-all">
+                            <div
+                                class="bg-white text-gray-800 shadow-2xl rounded-lg overflow-hidden border border-gray-100">
+                                <div class="flex border-b border-gray-100 p-1" id="notif-tabs">
+                                    <button onclick="switchTab('unread')" id="unread-tab"
+                                        class="flex-1 py-2 text-sm font-bold text-french-blue border-2 border-transparent hover:border-french-blue rounded-md transition-all duration-300 cursor-pointer">Unread</button>
+                                    <button onclick="switchTab('read')" id="read-tab"
+                                        class="flex-1 py-2 text-sm font-medium text-gray-500 border-2 border-transparent hover:border-french-blue rounded-md transition-all duration-300 cursor-pointer">Read</button>
+                                </div>
+                                <div id="notif-content"
+                                    class="max-h-80 overflow-y-auto p-12 text-center text-gray-400 text-xs italic">No
+                                    new notifications</div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="relative group">
                         <button class="flex items-center py-1 cursor-pointer outline-none">
@@ -503,13 +505,14 @@
                         </li>
                         <li><a href="#" class="hover:text-french-blue transition-colors">Terms & Conditions</a></li>
                         <li class="flex justify-center md:justify-start gap-4 pt-2">
-                            <a href="https://www.facebook.com/profile.php?id=61586363393433" target="_blank" rel="noopener noreferrer"
-                                class="inline-block">
+                            <a href="https://www.facebook.com/profile.php?id=61586363393433" target="_blank"
+                                rel="noopener noreferrer" class="inline-block">
                                 <img src="../icons/facebook-logo.png" alt="Facebook"
                                     class="w-8 h-8 hover:scale-110 transition-transform object-contain">
                             </a>
-                            
-                            <a href="https://www.instagram.com/balik.sarmiento/" target="_blank" rel="noopener noreferrer" class="inline-block">
+
+                            <a href="https://www.instagram.com/balik.sarmiento/" target="_blank"
+                                rel="noopener noreferrer" class="inline-block">
                                 <img src="../icons/instagram.png" alt="Instagram"
                                     class="w-8 h-8 hover:scale-110 transition-transform object-contain">
                             </a>
@@ -609,23 +612,23 @@
     </script>
 
 
-<script>
-// Fix #2: Move chatbot FAB and modal up when backToTop arrow is visible
-(function() {
-    var fab   = document.getElementById('chat-fab');
-    var modal = document.getElementById('chat-modal');
-    var btt   = document.getElementById('backToTop');
-    if (!btt) return;
-    function syncChatPos() {
-        var vis = btt.classList.contains('opacity-100') && !btt.classList.contains('invisible');
-        if (fab)   fab.style.bottom   = vis ? '108px' : '32px';
-        if (modal) modal.style.bottom = vis ? '180px' : '100px';
-    }
-    var obs = new MutationObserver(syncChatPos);
-    obs.observe(btt, { attributes: true, attributeFilter: ['class'] });
-    syncChatPos();
-})();
-</script>
+    <script>
+        // Fix #2: Move chatbot FAB and modal up when backToTop arrow is visible
+        (function () {
+            var fab = document.getElementById('chat-fab');
+            var modal = document.getElementById('chat-modal');
+            var btt = document.getElementById('backToTop');
+            if (!btt) return;
+            function syncChatPos() {
+                var vis = btt.classList.contains('opacity-100') && !btt.classList.contains('invisible');
+                if (fab) fab.style.bottom = vis ? '108px' : '32px';
+                if (modal) modal.style.bottom = vis ? '180px' : '100px';
+            }
+            var obs = new MutationObserver(syncChatPos);
+            obs.observe(btt, { attributes: true, attributeFilter: ['class'] });
+            syncChatPos();
+        })();
+    </script>
 
 </body>
 
